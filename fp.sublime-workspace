@@ -1,0 +1,588 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"sidebar",
+				"sidebarFunctions"
+			],
+			[
+				"text-",
+				"text-decoration"
+			],
+			[
+				"text",
+				"text-decoration"
+			],
+			[
+				"cate",
+				"category-dropdown"
+			],
+			[
+				"post-nati",
+				"post-navigation-link"
+			],
+			[
+				"ta",
+				"ta:c	text-align:center"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "input.php",
+			"settings":
+			{
+				"buffer_size": 1145,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "<?php\n    include('db_include.php');\n\n    // Create connection\n    $conn = mysqli_connect(DB_SERVER, DB_USER, DB_PASSWORD, DB_NAME);\n\n    // Check connection\n    if (mysqli_connect_errno()){\n        echo \"Failed to connect to MySQL: \" . mysqli_connect_error();\n    }else{\n        $sql = \"CREATE TABLE IF NOT EXISTS user( \" .\n               \"user_id integer not null auto_increment, \".\n               \"field1 varchar(50), \".\n               \"field2 varchar(50), \".\n               \"field3 varchar(50), \".\n               \"field4 varchar(50), \".\n               \"field5 varchar(50), \".\n               \"PRIMARY KEY(user_id) \".\n               \");\";\n        mysqli_query($conn,$sql);\n    }\n    \n    function getUsers(){\n        global $conn;\n        \n        $sql = \"SELECT * from user;\";\n        $users = mysqli_query($conn,$sql);\n        \n        $arr = array();\n        while($row = $users->fetch_assoc()){\n            $arr[] = $row;\n        }\n        return $arr;\n    }\n    \n    function insertUser($field1, $field2,$field3,$field4,$field5){\n        global $conn;\n        \n        $sql = \"INSERT INTO user VALUES (DEFAULT,'$field1', '$field2','$field3','$field4','$field5');\";\n        mysqli_query($conn,$sql);\n    }\n    \n    \n?>",
+			"file": "/C/Users/Steven/AppData/Local/Temp/7zOBF86.tmp/mysqli_database.php",
+			"file_size": -1,
+			"file_write_time": -1,
+			"settings":
+			{
+				"buffer_size": 1224,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "<?php\n	$iErrorCount = 0;\n	$bSubmitted = false;\n	$bRegion = 0;\n	$strError = \"<ul>\\n\";\n\n	if ($_POST)\n	{\n		$strSuggestion = $_POST[\"suggestion\"];\n		$strOptional = $_POST[\"optemail\"];\n		$strRating = $_POST[\"rating\"];\n		$strJibberish = $_POST[\"jibberish\"];\n		$strForename = $_POST[\"forename\"];\n		$strAge = $_POST[\"age\"];\n		$strEmail = $_POST[\"email\"];\n\n		if (strlen($_POST[\"signup\"]) > 0)\n		{\n			$bSubmitted = true;\n\n			if (strlen($strForename) < 2 || is_numeric($strForename))\n			{\n				$iErrorCount++;\n				$strError .= \"<li><a href=\\\"#forename\\\">Please enter your forename</a></li>\\n\";\n			}\n\n			if (!is_numeric($strAge))\n			{\n				$iErrorCount++;\n				$strError .= \"<li><a href=\\\"#age\\\">Please enter your age</a></li>\\n\";\n			}\n\n			if (!preg_match(\"/^[\\w-\\.\\']{1,}\\@([\\da-zA-Z-]{1,}\\.){1,}[\\da-zA-Z-]{2,}$/\", $strEmail))\n			{\n				$iErrorCount++;\n				$strError .= \"<li><a href=\\\"#email\\\">Please enter your email address</a></li>\\n\";\n			}\n		}\n		else if (strlen($_POST[\"submit\"]) > 0)\n		{\n			$bRegion = 1;\n			$bSubmitted = true;\n\n			if (strlen($strSuggestion) < 2 || is_numeric($strSuggestion))\n			{\n				$iErrorCount++;\n				$strError .= \"<li><a href=\\\"#suggestion\\\">Enter a suggestion</a></li>\\n\";\n			}\n\n			if (strlen($strOptional) > 0 && !preg_match(\"/^[\\w-\\.\\']{1,}\\@([\\da-zA-Z-]{1,}\\.){1,}[\\da-zA-Z-]{2,}$/\", $strOptional))\n			{\n				$iErrorCount++;\n				$strError .= \"<li><a href=\\\"#optemail\\\">Please enter your email address (optional)</a></li>\\n\";\n			}\n\n			if (!is_numeric($strRating))\n			{\n				$iErrorCount++;\n				$strError .= \"<li><a href=\\\"#rating\\\">Please rate this suggestion</a></li>\\n\";\n			}\n		}\n\n		$strError .= \"</ul>\\n\";\n\n		if ($iErrorCount > 0)\n			$strError = \"<h2>$iErrorCount Errors in Submission</h2>\\n\" . $strError;\n	}\n?>\n<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">\n<html>\n<head>\n	<title>Form Validation</title>\n	<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n	<link href=\"css/validate.css\" rel=\"stylesheet\" type=\"text/css\">\n	<script type=\"text/javascript\" src=\"scripts/validate.js\"></script>\n</head>\n<body>\n\n<h1>Form Validation</h1>\n<p>\nThe following form is validated before being submitted if scripting is available, otherwise the form is validated on the server. All fields are required, except those marked optional. If errors are found in the submission, the form is cancelled and a list of errors is displayed at the top of the form. \n</p>\n\n<?php if ($bSubmitted == true && $iErrorCount == 0) { ?>\n<h1 id=\"focuspoint\">Successful Submission</h1>\n<p>\nWhen it comes to filling out web forms, you rock!\n</p>\n<?php\n	}\n	else if ($iErrorCount > 0 && $bRegion == 0)\n		echo $strError;\n\n	if ($bSubmitted == false || ($bSubmitted == true && $iErrorCount != 0)) {\n?>\n\n\n<p>\nPlease enter your details below.\n</p>\n\n<h2>Validating Form</h2>\n<form id=\"personalform\" method=\"post\" action=\"index.php\">\n<div class=\"validationerrors\"></div>\n<fieldset>\n<legend>Personal Details</legend>\n<p>\n<label for=\"forename\">Please enter your forename</label>\n<input type=\"text\" size=\"20\" name=\"forename\" id=\"forename\" class=\"string\" value=\"<?php echo $strForename; ?>\">\n</p>\n<p>\n<label for=\"age\">Please enter your age</label> \n<input type=\"text\" size=\"20\" name=\"age\" id=\"age\" class=\"number\" value=\"<?php echo $strAge; ?>\">\n</p>\n<p>\n<label for=\"email\">Please enter your email address</label> \n<input type=\"text\" size=\"20\" name=\"email\" id=\"email\" class=\"email\" value=\"<?php echo $strEmail; ?>\">\n</p>\n</fieldset>\n<p>\n<input type=\"submit\" name=\"signup\" value=\"Sign up\">\n</p>\n</form>\n<?php\n	}\n	if ($iErrorCount > 0 && $bRegion == 1)\n		echo $strError;\n\n	if ($bSubmitted == false || ($bSubmitted == true && $iErrorCount != 0)) {\n\n?>\n<h2>Second Form</h2>\n<form id=\"secondform\" method=\"post\" action=\"index.php#focuspoint\">\n<div class=\"validationerrors\"></div>\n<fieldset>\n<legend>Second Form Details</legend>\n<p>\n<label for=\"suggestion\">Enter a suggestion</label>\n<input type=\"text\" size=\"20\" name=\"suggestion\" id=\"suggestion\" class=\"string\" value=\"<?php echo $strSuggestion; ?>\">\n</p>\n<p>\n<label for=\"optemail\">Please enter your email address (optional)</label>\n<input type=\"text\" size=\"20\" name=\"optemail\" id=\"optemail\" class=\"optional email\" value=\"<?php echo $strOptional; ?>\">\n</p>\n<p>\n<label for=\"rating\">Please rate this suggestion</label> \n<input type=\"text\" size=\"20\" name=\"rating\" id=\"rating\" class=\"number\" value=\"<?php echo $strRating; ?>\">\n</p>\n<p>\n<label for=\"jibberish\">Enter some jibberish (optional)</label>\n<input type=\"text\" size=\"20\" name=\"jibberish\" id=\"jibberish\" value=\"<?php echo $strJibberish; ?>\">\n</p>\n</fieldset>\n<p>\n<input type=\"submit\" name=\"submit\" value=\"Add Suggestion\">\n</p>\n</form>\n<?php } ?>\n</body>\n</html>\n",
+			"file": "/C/Users/Steven/AppData/Local/Temp/Temp1_validation.zip/validation/index.php",
+			"file_size": -1,
+			"file_write_time": -1,
+			"settings":
+			{
+				"buffer_size": 4684,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 400.0,
+		"selected_items":
+		[
+			[
+				"ip",
+				"Package Control: Install Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"package",
+				"Package Control: Install Package"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: List Packages"
+			],
+			[
+				"install pa",
+				"Package Control: Install Package"
+			],
+			[
+				"pakage",
+				"Package Control: Upgrade Package"
+			]
+		],
+		"width": 408.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); open(os.path.join(ipp, pf), 'wb').write(urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ','%20')).read())"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/Steven/AppData/Local/Temp/7zO9DA5.tmp/db_include.php",
+		"/C/Users/Steven/AppData/Local/Temp/7zO628F.tmp/mysqli_database.php",
+		"/E/easyPHP/data/localweb/assignments/foundation-programming/fp.sublime-project",
+		"/E/easyPHP/data/localweb/projects/pssi/Gruntfile.js",
+		"/C/Users/Steven/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/C/Windows/System32/drivers/etc/hosts",
+		"/C/Users/Steven/Documents/pseudocode.txt",
+		"/E/easyPHP/data/localweb/projects/pssi/sftp-config.json",
+		"/E/easyPHP/data/localweb/projects/pssi/config.rb",
+		"/E/easyPHP/data/localweb/projects/pssi/assets/scss/entypo/_entypo-vars.scss",
+		"/E/easyPHP/data/localweb/projects/pssi/assets/scss/entypo/_entypo.scss",
+		"/E/easyPHP/data/localweb/projects/pssi/assets/scss/entypo/_font-mixins.scss",
+		"/E/easyPHP/data/localweb/projects/pssi/assets/scss/font-awesome/_variables.scss",
+		"/E/easyPHP/data/localweb/projects/pssi/assets/js/main.js",
+		"/E/easyPHP/data/localweb/projects/pssi/package.json",
+		"/E/easyPHP/data/localweb/projects/pssi/assets/js/jquery.js",
+		"/E/easyPHP/data/localweb/projects/pssi/assets/js/jquery.min.js",
+		"/E/easyPHP/data/localweb/projects/pssi/dist/js/script.min.js",
+		"/E/easyPHP/data/localweb/projects/pssi/assets/img/joko-driyono.jpg",
+		"/E/easyPHP/data/localweb/projects/pssi/assets/scss/_styling.scss",
+		"/E/easyPHP/data/localweb/projects/pssi/index.html",
+		"/E/easyPHP/data/localweb/projects/pssi/assets/scss/_grid",
+		"/E/easyPHP/data/localweb/projects/pssi/assets/img/logo.png",
+		"/E/easyPHP/data/localweb/projects/pssi/assets/font/luzhpbro-webfont.eot",
+		"/C/Users/Steven/AppData/Roaming/Sublime Text 3/Packages/Emmet/Default (Windows).sublime-keymap",
+		"/E/easyPHP/data/localweb/projects/pssi/pssi.sublime-project",
+		"/C/Users/Steven/AppData/Roaming/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/E/easyPHP/data/localweb/assignments/bcal.org/index.html",
+		"/E/easyPHP/data/localweb/wordpress/wp-content/themes/dgr2/functions.php",
+		"/E/easyPHP/data/localweb/wordpress/wp-content/themes/dgr2/Gruntfile.js",
+		"/E/easyPHP/data/localweb/wordpress/wp-content/themes/diagramatica/Gruntfile.js",
+		"/E/easyPHP/data/localweb/wordpress/wp-content/themes/dgr2/package.json",
+		"/E/easyPHP/data/localweb/wordpress/wp-content/themes/dgr2/config.rb",
+		"/E/easyPHP/data/localweb/wordpress/wp-content/themes/dgr2/style.css",
+		"/E/easyPHP/data/localweb/wordpress/wp-content/themes/dgr2/assets/scss/style.scss",
+		"/E/easyPHP/data/localweb/wordpress/wp-content/themes/dgr2/assets/scss/_base.scss",
+		"/E/easyPHP/data/localweb/wordpress/wp-content/themes/dgr2/templates/front-page.php",
+		"/E/easyPHP/data/localweb/wordpress/wp-content/themes/dgr2/assets/scss/_grid.scss",
+		"/E/easyPHP/data/localweb/wordpress/wp-content/themes/dgr2/assets/scss/_variables.scss",
+		"/E/easyPHP/data/localweb/wordpress/wp-content/themes/dgr2/assets/scss/fontawesome/_variables.scss",
+		"/C/Users/Steven/AppData/Local/Temp/Temp1_font-awesome-4.0.3.zip/font-awesome-4.0.3/scss/font-awesome.scss",
+		"/E/easyPHP/data/localweb/wordpress/wp-content/themes/dgr2/index.php",
+		"/C/Users/Steven/Downloads/chopstick-boilerplate-master/scss/screen.scss",
+		"/C/Users/Steven/Downloads/chopstick-boilerplate-master/scss/theme/_frame.scss",
+		"/C/Users/Steven/Downloads/chopstick-boilerplate-master/scss/theme/_print.scss",
+		"/C/Users/Steven/Downloads/chopstick-boilerplate-master/scss/theme/_base.scss",
+		"/C/Users/Steven/Downloads/chopstick-boilerplate-master/scss/patterns/_reset.scss",
+		"/E/easyPHP/data/localweb/wordpress/wp-content/themes/dgr2/assets/scss/chopstick/_settings.scss",
+		"/E/easyPHP/data/localweb/wordpress/wp-content/themes/dgr2/assets/scss/chopstick/theme/_base.scss",
+		"/C/Users/Steven/Downloads/chopstick-boilerplate-master/_site/index.html",
+		"/C/Users/Steven/Downloads/chopstick-boilerplate-master/Guardfile",
+		"/C/Users/Steven/Downloads/chopstick-boilerplate-master/styleguide.html",
+		"/C/Users/Steven/Downloads/chopstick-boilerplate-master/Gemfile",
+		"/C/Users/Steven/Downloads/chopstick-boilerplate-master/config.rb",
+		"/C/Users/Steven/Downloads/chopstick-boilerplate-master/index.html",
+		"/C/Users/Steven/Downloads/chopstick-boilerplate-master/scss/theme/modules/_grid.scss",
+		"/C/Program Files/Ruby200-x64/devkit/config.yml",
+		"/C/Users/Steven/AppData/Local/Temp/Temp1_chopstick-boilerplate-master.zip/chopstick-boilerplate-master/scss/_settings.scss",
+		"/C/Users/Steven/AppData/Local/Temp/Temp1_chopstick-boilerplate-master.zip/chopstick-boilerplate-master/scss/screen.scss",
+		"/E/easyPHP/data/localweb/ghost/package.json",
+		"/E/easyPHP/data/localweb/ghost/Gruntfile.js",
+		"/E/easyPHP/data/localweb/wordpress/wp-content/themes/diagramatica/js/libs/skip-link-focus-fix.js",
+		"/E/easyPHP/data/localweb/wordpress/wp-content/themes/diagramatica/npm-debug.log",
+		"/E/easyPHP/data/localweb/wordpress/wp-content/themes/diagramatica/package.json",
+		"/E/easyPHP/data/localweb/assignments/bcal.org/Gruntfile.js",
+		"/E/easyPHP/data/localweb/wordpress/wp-content/themes/diagramatica/js/customizer.js",
+		"/E/easyPHP/data/localweb/wordpress/wp-content/themes/diagramatica/functions.php",
+		"/E/easyPHP/data/localweb/wordpress/wp-content/themes/diagramatica/inc/customizer.php",
+		"/E/easyPHP/data/localweb/wordpress/wp-content/themes/diagramatica/style.css",
+		"/E/easyPHP/data/localweb/wordpress/wp-config.php",
+		"/E/easyPHP/data/localweb/wordpress/wp-content/themes/twentythirteen/css/ie.css",
+		"/C/Users/Steven/AppData/Roaming/Sublime Text 3/Packages/Colorsublime-Themes/Tomorrow-Night-Eighties.tmTheme",
+		"/E/easyPHP/data/localweb/assignments/bcal.org/css/scss/style.scss",
+		"/E/easyPHP/data/localweb/assignments/bcal.org/credits.html",
+		"/E/easyPHP/data/localweb/assignments/bcal.org/pages/posts/post4.html",
+		"/E/easyPHP/data/localweb/assignments/bcal.org/pages/posts/post8.html",
+		"/E/easyPHP/data/localweb/assignments/bcal.org/pages/posts/post9.html",
+		"/E/easyPHP/data/localweb/assignments/bcal.org/js/script.js",
+		"/E/easyPHP/data/localweb/assignments/bcal.org/pages/posts/post5.html",
+		"/E/easyPHP/data/localweb/assignments/bcal.org/pages/posts/post7.html",
+		"/E/easyPHP/data/localweb/assignments/bcal.org/pages/posts/post6.html",
+		"/E/easyPHP/data/localweb/assignments/bcal.org/pages/posts/post3.html",
+		"/E/easyPHP/data/localweb/assignments/bcal.org/pages/posts/post2.html",
+		"/E/easyPHP/data/localweb/assignments/bcal.org/pages/posts/post11.html",
+		"/E/easyPHP/data/localweb/assignments/bcal.org/pages/posts/post12.html",
+		"/E/easyPHP/data/localweb/assignments/bcal.org/pages/posts/post10.html",
+		"/E/easyPHP/data/localweb/assignments/bcal.org/pages/posts/post1.html",
+		"/E/easyPHP/data/localweb/assignments/bcal.org/pages/indexes/page4.html",
+		"/E/easyPHP/data/localweb/assignments/bcal.org/pages/indexes/page3.html",
+		"/E/easyPHP/data/localweb/assignments/bcal.org/pages/indexes/page1.html",
+		"/E/easyPHP/data/localweb/assignments/bcal.org/pages/indexes/page2.html",
+		"/E/easyPHP/data/localweb/assignments/bcal.org/inc/share.html",
+		"/E/easyPHP/data/localweb/wordpress/.htaccess",
+		"/E/easyPHP/data/localweb/assignments/bcal.org/inc/sidebar.html",
+		"/E/easyPHP/data/localweb/assignments/bcal.org/css/scss/_animation.scss",
+		"/E/easyPHP/data/localweb/assignments/bcal.org/inc/header.html",
+		"/E/easyPHP/data/localweb/assignments/bcal.org/css/style.css",
+		"/E/easyPHP/data/localweb/assignments/bcal.org/js/js/script.js",
+		"/E/easyPHP/data/localweb/projects/wordpress/wp-content/themes/bcaltheme/library/theme-config.php",
+		"/E/easyPHP/data/localweb/projects/wordpress/wp-content/themes/bcaltheme/package.json",
+		"/E/easyPHP/data/localweb/projects/wordpress/wp-content/themes/bcaltheme/functions.php",
+		"/E/easyPHP/data/localweb/projects/wordpress/wp-content/themes/bcaltheme/header.php",
+		"/E/easyPHP/data/localweb/projects/wordpress/wp-content/themes/bcaltheme/sidebar.php",
+		"/E/easyPHP/data/localweb/projects/wordpress/wp-content/themes/bcaltheme/css/scss/bootstrap.scss",
+		"/E/easyPHP/data/localweb/projects/wordpress/wp-content/themes/bcaltheme/style.css",
+		"/E/easyPHP/data/localweb/projects/wordpress/wp-content/themes/bcaltheme/css/scss/normalize.scss",
+		"/E/easyPHP/data/localweb/projects/wordpress/wp-content/themes/bcaltheme/css/scss/basic.scss",
+		"/E/easyPHP/data/localweb/projects/wordpress/wp-content/themes/bcaltheme/Gruntfile.js",
+		"/E/easyPHP/data/localweb/projects/wordpress/wp-content/themes/bcaltheme/css/style.css",
+		"/E/easyPHP/data/localweb/projects/wordpress/wp-content/themes/bcaltheme/css/normalize.css",
+		"/E/easyPHP/data/localweb/projects/wordpress/wp-content/themes/bcaltheme/js/customizer.js",
+		"/E/easyPHP/data/localweb/projects/wordpress/wp-content/themes/bcaltheme/css/scss/style.scss",
+		"/E/xampp/htdocs/assignments/foundation-internet-w1/credits.html",
+		"/E/xampp/htdocs/assignments/foundation-internet-w1/events/submit.html",
+		"/E/xampp/htdocs/assignments/foundation-internet-w1/events/events.html",
+		"/E/xampp/htdocs/assignments/foundation-internet-w1/style.scss",
+		"/E/xampp/htdocs/assignments/foundation-internet-w1/index.html",
+		"/E/xampp/htdocs/assignments/foundation-internet-w1/submit.html",
+		"/E/xampp/htdocs/assignments/foundation-internet-w1/contact.html",
+		"/E/xampp/htdocs/assignments/foundation-internet-w1/events/lights.html",
+		"/E/xampp/htdocs/assignments/foundation-internet-w1/events/exhibition.html",
+		"/E/xampp/htdocs/assignments/foundation-internet-w1/apps.html"
+	],
+	"find":
+	{
+		"height": 23.0
+	},
+	"find_in_files":
+	{
+		"height": 97.0,
+		"where_history":
+		[
+			"<project>"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"character",
+			"CHARACTER",
+			"SET",
+			"set",
+			"SET",
+			"h1",
+			"section",
+			"p",
+			"div",
+			"#disqus_thread",
+			"href",
+			"opacity: 0.1;",
+			"header-more i",
+			"0.6",
+			"</li>",
+			"<li>",
+			".chevron",
+			"6",
+			"#chevron",
+			"all 150ms ease",
+			" ",
+			"  ",
+			"       ",
+			"      ",
+			"     ",
+			"    ",
+			"  ",
+			"     ",
+			"    ",
+			"   ",
+			"  ",
+			"artikel",
+			"berita",
+			"opacity: 0.6;",
+			"0.6",
+			"darken(black, 11%);  ",
+			"darken(black, 11%);",
+			"11%",
+			"black",
+			"red",
+			"   ",
+			"17px",
+			"icon-right-open",
+			"entypo-chevron-right",
+			"fontello",
+			"right-open",
+			"chevron-right",
+			"e75e",
+			"  ",
+			"http://weloveiconfonts.com/api/fonts/entypo/",
+			"Lihat Selengkapnya",
+			"#headline",
+			"P",
+			"p",
+			"slideshow",
+			"div",
+			"rec",
+			"news",
+			"more-content",
+			"cf",
+			"padding",
+			"10px",
+			"16px",
+			"13px",
+			"</li>",
+			"165px",
+			"../font/",
+			"include",
+			"'",
+			"$zone",
+			"go .loading",
+			"loading",
+			"(document).ready",
+			"$hello",
+			"addClass('go')",
+			"fadeIn",
+			"FI.ENUMS.API",
+			"bezier",
+			"navigation.js",
+			".js",
+			"debug",
+			"varela",
+			"stop edit",
+			"9gag.com",
+			"gruntjs.com",
+			"http://bourbon.io",
+			"bourbon.io",
+			"fortawesome.github.io/Font-Awesome/",
+			"http://getbootstrap.com",
+			"a",
+			"We don't meet people by accident.",
+			"Everything has beauty but not everyone can see.",
+			"Life begins at the end of your comfort zone.",
+			"Life begins at the end of your comfort zone. ",
+			"No tolerance for ignorance.",
+			"The greatest pleasure in life is doing what people say you cannot do.",
+			"Let your dreams take flight.",
+			"Let's find some beautiful place to get lost.",
+			"1",
+			"5",
+			"translateY(-\" + $(document).scrollTop() / 20 + \"px)",
+			"latest-post",
+			"featured-post",
+			"4",
+			"5",
+			"6",
+			"7",
+			"8",
+			"9",
+			"10",
+			"11",
+			"12",
+			"pages",
+			"post/post-10",
+			"post/post-11",
+			"post/post-12",
+			"min-height",
+			"parseInt($('.featured-post').css(\"height\"), 10)",
+			".post-count",
+			"img/",
+			"img",
+			"#sidebar",
+			"sidebar",
+			"status",
+			"header",
+			"span",
+			"	<div class=\"share-button-container\">",
+			"	</div>"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "input.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1145,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1108,
+								1108
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"syntax": "Packages/PHP/PHP.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/C/Users/Steven/AppData/Local/Temp/7zOBF86.tmp/mysqli_database.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1224,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								1224
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/C/Users/Steven/AppData/Local/Temp/Temp1_validation.zip/validation/index.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4684,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1125.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.sftp":
+	{
+		"height": 100.0
+	},
+	"project": "fp.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 181.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+		"max_columns": 2
+	}
+}
