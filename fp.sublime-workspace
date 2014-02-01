@@ -35,18 +35,15 @@
 			"file": "input.php",
 			"settings":
 			{
-				"buffer_size": 1145,
+				"buffer_size": 2407,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"contents": "<?php\n    include('db_include.php');\n\n    // Create connection\n    $conn = mysqli_connect(DB_SERVER, DB_USER, DB_PASSWORD, DB_NAME);\n\n    // Check connection\n    if (mysqli_connect_errno()){\n        echo \"Failed to connect to MySQL: \" . mysqli_connect_error();\n    }else{\n        $sql = \"CREATE TABLE IF NOT EXISTS user( \" .\n               \"user_id integer not null auto_increment, \".\n               \"field1 varchar(50), \".\n               \"field2 varchar(50), \".\n               \"field3 varchar(50), \".\n               \"field4 varchar(50), \".\n               \"field5 varchar(50), \".\n               \"PRIMARY KEY(user_id) \".\n               \");\";\n        mysqli_query($conn,$sql);\n    }\n    \n    function getUsers(){\n        global $conn;\n        \n        $sql = \"SELECT * from user;\";\n        $users = mysqli_query($conn,$sql);\n        \n        $arr = array();\n        while($row = $users->fetch_assoc()){\n            $arr[] = $row;\n        }\n        return $arr;\n    }\n    \n    function insertUser($field1, $field2,$field3,$field4,$field5){\n        global $conn;\n        \n        $sql = \"INSERT INTO user VALUES (DEFAULT,'$field1', '$field2','$field3','$field4','$field5');\";\n        mysqli_query($conn,$sql);\n    }\n    \n    \n?>",
-			"file": "/C/Users/Steven/AppData/Local/Temp/7zOBF86.tmp/mysqli_database.php",
-			"file_size": -1,
-			"file_write_time": -1,
+			"file": "main.js",
 			"settings":
 			{
-				"buffer_size": 1224,
+				"buffer_size": 910,
 				"line_ending": "Windows"
 			}
 		},
@@ -118,6 +115,7 @@
 	},
 	"file_history":
 	[
+		"/C/Users/Steven/AppData/Local/Temp/7zOBF86.tmp/mysqli_database.php",
 		"/C/Users/Steven/AppData/Local/Temp/7zO9DA5.tmp/db_include.php",
 		"/C/Users/Steven/AppData/Local/Temp/7zO628F.tmp/mysqli_database.php",
 		"/E/easyPHP/data/localweb/assignments/foundation-programming/fp.sublime-project",
@@ -258,6 +256,11 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"<input ",
+			"input",
+			"onchange",
+			"onkeypress",
+			"</div>",
 			"character",
 			"CHARACTER",
 			"SET",
@@ -380,12 +383,7 @@
 			"img/",
 			"img",
 			"#sidebar",
-			"sidebar",
-			"status",
-			"header",
-			"span",
-			"	<div class=\"share-button-container\">",
-			"	</div>"
+			"sidebar"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -403,7 +401,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -412,44 +410,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1145,
+						"buffer_size": 2407,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1108,
-								1108
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"syntax": "Packages/PHP/PHP.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "/C/Users/Steven/AppData/Local/Temp/7zOBF86.tmp/mysqli_database.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1224,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								1224
+								2047,
+								2047
 							]
 						],
 						"settings":
@@ -458,14 +427,42 @@
 							"remote_loading": false,
 							"synced": false,
 							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 245.0,
+						"translation.y": 225.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "main.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 910,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								626,
+								626
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -481,8 +478,8 @@
 						"selection":
 						[
 							[
-								0,
-								0
+								3208,
+								3208
 							]
 						],
 						"settings":
@@ -494,10 +491,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1125.0,
+						"translation.y": 765.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
