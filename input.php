@@ -1,12 +1,14 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
+	<meta charset="UTF-8">
 	<title>Foundation Programming Task</title>
 	<script src="main.js"></script>
 </head>
 
 <body>
-	<form action="" method="POST" onsubmit="return formCheck(this)">
+	<form action="register.php" method="POST" onsubmit="return formCheck(this)">
 		<div class="form-section-container">
 			<span class="form-text">First Name</span><input required type="text" name="fn" class="form-input" data-limit="20" data-allow="^[a-z']+$" onblur="checkFormInput(this)" onchange="checkFormInput(this)">
 			<span class="form-error" id="fn-error"></span>
@@ -14,7 +16,7 @@
 		<div class="form-section-container">
 			<span class="form-text">Last Name</span><input required type="text" name="ln" class="form-input" data-limit="30" data-allow="^[a-z']+$" onblur="checkFormInput(this)" onchange="checkFormInput(this)">
 			<span class="form-error" id="ln-error"></span>
-		</div> 
+		</div>
 		<div class="form-section-container">
 			<span class="form-text">Street Address</span><input required type="text" name="street" class="form-input" data-limit="50" data-allow="^[\sa-z0-9]+$" onblur="checkFormInput(this)" onchange="checkFormInput(this)">
 			<span class="form-error" id="street-error"></span>
