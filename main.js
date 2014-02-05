@@ -10,7 +10,7 @@ function checkFormInput(el){
 	el.value = input.charAt(0).toUpperCase() + input.slice(1);
 
 	var valid = regex.test(input);
-	
+
 	if(input.length === 0){
 		errorPlace.innerHTML = "Required, cannot be blank";
 	}
@@ -33,7 +33,7 @@ function checkPhoneInput(el){
 	var errorPlace = document.getElementById(el.getAttribute("name") + "-error");
 
 	var valid = regex.test(input);
-	
+
 	if(input.length === 0){
 		errorPlace.innerHTML = "Required, cannot be blank";
 	}
@@ -50,7 +50,7 @@ function checkPhoneInput(el){
 }
 
 function checkEmailInput(el){
-	// http://thedailywtf.com/Articles/Validating_Email_Addresses.aspx 
+	// http://thedailywtf.com/Articles/Validating_Email_Addresses.aspx
 	var regex = new RegExp("^[-!#$%&'*+/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+/0-9=?A-Z^_a-z{|}~])*@[a-zA-Z](-?[a-zA-Z0-9])*(\.[a-zA-Z](-?[a-zA-Z0-9])*)+$", "i");
 	var input = el.value;
 	var valid = regex.test(input);
@@ -67,11 +67,36 @@ function checkEmailInput(el){
 	}
 }
 
+function checkState(el){
+	var errorPlace = document.getElementById(el.getAttribute("name") + "-error");
+	if(el.options[el.selectedIndex].defaultSelected){
+		errorPlace.innerHTML = "Required. You're selecting an invalid value.";
+	}
+	else{
+		errorPlace.innerHTML = "";
+	}
+}
+
 function formCheck(el){
 	var elements = el.querySelectorAll("span.form-error");
+	var inputs = el.querySelectorAll("input.form-input, select.form-select");
+
+	// Trigger the validation
+	for(var i = 0; i < inputs.length; i++){
+		if ("createEvent" in document){
+			var e = document.createEvent("HTMLEvents");
+			e.initEvent("change", false, true);
+			inputs[i].dispatchEvent(e);
+		}
+		else{
+			element.fireEvent("onchange"); // Because IE
+		}
+	}
+
+	// Check if something's wrong
 	var bCheck = true;
-	for (var i; i < elements.length; i++){
-		if (elements[i].innerHTML !== ""){
+	for (var i = 0; i < elements.length; i++){
+		if (elements[i].innerHTML != ""){
 			bCheck = false;
 			break;
 		}
