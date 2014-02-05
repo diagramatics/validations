@@ -1,6 +1,13 @@
 <?php
 	session_start();
-	$inputs = $_SESSION['data'];
+	if (!isset($_session['data'])){
+		// Prevent direct access to register.php
+		header('Location: input.php');
+	}
+	else{
+		$inputs = $_SESSION['data'];
+	}
+
 ?>
 
 <!DOCTYPE html>
