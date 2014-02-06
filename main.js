@@ -15,7 +15,6 @@ function checkFormInput(el){
 		errorPlace.innerHTML = "Required, cannot be blank";
 	}
 	else if (limit != 0 && input.length > limit){
-		el.value = input.substring(0, input.length - 1);
 		errorPlace.innerHTML = "Over limit. You can only type " + limit + " characters";
 	}
 	else if (valid){
@@ -38,7 +37,6 @@ function checkPhoneInput(el){
 		errorPlace.innerHTML = "Required, cannot be blank";
 	}
 	else if (10 != 0 && input.length > 10){
-		el.value = input.substring(0, input.length - 1);
 		errorPlace.innerHTML = "Over limit. You can only type 10 characters";
 	}
 	else if (valid){

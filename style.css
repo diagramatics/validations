@@ -1,0 +1,59 @@
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
+body {
+  font-family: Helvetica, sans-serif;
+  font-size: 14px; }
+
+.form-section {
+  position: relative;
+  width: 50%;
+  margin: 0 auto; }
+
+.form-section-container {
+  margin: 5px 0; }
+
+.form-text {
+  display: inline-block;
+  width: 20%;
+  padding: 2px 10px;
+  text-align: right; }
+
+.form-input {
+  width: 30%;
+  padding: 2px 5px;
+  border: thin solid #ccc;
+  -webkit-transition: all 300ms ease-in-out;
+  -moz-transition: all 300ms ease-in-out;
+  -ms-transition: all 300ms ease-in-out;
+  -o-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
+  outline: none; }
+  .form-input:focus {
+    border-color: #2020df; }
+
+.form-error {
+  float: right;
+  color: #df2020; }
+
+input[type="submit"],
+select {
+  display: inline-block;
+  text-align: center;
+  padding: 5px 10px;
+  background: #eee;
+  border: thin solid #ccc; }
+
+.php-error {
+  width: 50%;
+  margin: 0 auto; }
+
+.php-error-item {
+  display: block;
+  color: #ff3333; }
+
+.information {
+  color: #222;
+  font-weight: bold; }

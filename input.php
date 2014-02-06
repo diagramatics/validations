@@ -78,16 +78,21 @@
 	<meta charset="UTF-8">
 	<title>Foundation Programming Task</title>
 	<script src="main.js"></script>
+	<link href="style.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
 	<?php
-		foreach ($errors as $value){
-			echo $value.'<br />';
+		if(!empty($errors)){
+			echo '<div class="php-error">';
+			foreach ($errors as $value){
+				echo '<span class="php-error-item">' . $value . '</span>';
+			}
+			echo '</div>';
 		}
 	?>
 	<!-- put novalidate if no need for html5 checks -->
-	<form novalidate action="" method="POST" onsubmit="return formCheck(this)">
+	<form class="form-section" novalidate action="" method="POST" onsubmit="return formCheck(this)">
 		<div class="form-section-container">
 			<label class="form-text" for="fn">First Name</label><input required value="<?php echo isset($_POST['register']) ? $inputs['fn'] : ''; ?>" type="text" name="fn" class="form-input" data-limit="20" data-allow="<?php echo $input_regexes['fn'] ?>" onblur="checkFormInput(this)" onchange="checkFormInput(this)">
 			<span class="form-error" id="fn-error"></span>
@@ -124,7 +129,7 @@
 			<span class="form-error" id="postal-error"></span>
 		</div>
 		<div class="form-section-container">
-			<label class="form-text" for="tel">Telephone Number</label><input value="<?php echo isset($_POST['register']) ? $inputs['phone'] : ''; ?>" required type="tel" name="phone" class="form-input" onblur="checkPhoneInput(this)" onchange="checkPhoneInput(this)">
+			<label class="form-text" for="tel">Telephone</label><input value="<?php echo isset($_POST['register']) ? $inputs['phone'] : ''; ?>" required type="tel" name="phone" class="form-input" onblur="checkPhoneInput(this)" onchange="checkPhoneInput(this)">
 			<span class="form-error" id="phone-error"></span>
 		</div>
 		<div class="form-section-container">
